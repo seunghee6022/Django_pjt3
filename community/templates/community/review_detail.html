@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load bootstrap4%}
+{% block body %}
+
+
+<h1 class="text-center my-5">영화 <{{review.movie_title}}></h1>
+<div class="d-flex flex-column w-75 mx-auto">
+<div class="card border-dark my-3">
+    <div class="card-header display-5">
+        <ul class="d-flex justify-content-between align-items-center mb-0">
+            <h2>제목 : {{review.title}}</h2>
+            <p>{{review.user.username}}님의 글</p>
+        </ul>
+    </div>
+    <div class="card-body text-dark">
+    <h4 class="card-text">{{review.content}}</h4>
+    <hr/>
+      <p class="card-text" style="color:slategrey">Rank: {{review.rank}}</p>
+      <p class="card-text" style="color:slategrey">작성 시간: {{review.created_at}}</p>
+      <p class="card-text" style="color:slategrey">업데이트 시간: {{review.updated_at}}</p>
+    </div>
+  </div>
+    <div class="d-flex justify-content-center align-items-center ">
+    <button><a  class="text-decoration-none" href="{% url 'community:review_list' %}" >BACK</a></button>
+    {% if review.user == request.user %}
+    <button class='mx-3'><a  class="text-decoration-none"  href="{% url 'community:update' review.pk %}">수정</a></button>
+        <form action="{% url 'community:delete' review.pk %}"  method="POST">
+            {% csrf_token %}
+            <input type=submit value="삭제" style='color:red'>
+        </form>
+    {% endif %}
+    
+    </div>
+    <div>
+        <hr/>
+    <h4>댓글 작성</h4>
+    <hr/>
+    <div class="mx-3">
+        {% for comment in review.comment_set.all %}
+        <p>{{comment.user.username}}님의 댓글 : {{comment.content}}</p>
+        {% if request.user == comment.user %}
+        <form action="{% url 'community:comment_delete' review.pk comment.pk %}" method="POST">
+            {% csrf_token %}
+            <button class="">삭제</button>
+        </form>
+        {% endif %}
+        <hr/>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <form action="{% url 'community:comment_create' review.pk %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form comment_form %}
+        <button>SUBMIT</button>
+    </form>
+    {% endif %}
+    </div>
+
+</div>
+
+
+
+
+{% endblock %}

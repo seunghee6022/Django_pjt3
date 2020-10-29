@@ -1,0 +1,18 @@
+
+{% extends 'base.html'%}
+{% load bootstrap4 %}
+{% block body %}
+
+<div class='m-5'>
+<h3>로그인 페이지</h3>
+<hr>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+
+    <button>로그인</button>
+    <button><a class="tect-decoration-none" href="{% url 'community:review_list' %}">Back</a></button>
+</form>
+</div>
+{% endblock %}

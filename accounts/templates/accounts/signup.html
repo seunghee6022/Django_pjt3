@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+{% block body %}
+<h1>회원 가입</h1>
+<hr>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button>
+        회원가입
+    </button>
+    <a href="{% url 'community:review_list' %}">Back</a>
+</form>
+
+{% endblock %}

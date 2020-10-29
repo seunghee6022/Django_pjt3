@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<h2 class="text-center">Movie Review Board</h2>
+<a class="m-5" href="{% url 'community:create' %}">NEW</a>
+
+<hr/>
+<div>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">USER</th>
+        <th scope="col">RANK</th>
+        <th scope="col">MOVIE TITLE</th>
+        <th scope="col">TITLE</th>
+        <th scope="col">UPDATE</th>
+        <th scope="col">DETAIL</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for review in reviews %}
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td>{{ review.user.username}}</td>
+        <td>{{ review.rank}}</td>
+        <td>{{review.movie_title}}</td>
+        <td>{{ review.title}} [{{review.comment_set.count}}]</td>
+        <td>{{ review.updated_at}}</td>
+        <td><a href="{% url 'community:detail' review.pk %}">DETAIL</a></td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+  <hr/>
+  </div>
+
+{% endblock %}
